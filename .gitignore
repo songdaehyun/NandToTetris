@@ -1,0 +1,20 @@
+# IntelliJ 설정 폴더
+.idea/
+*.iml
+
+# OS 임시 파일
+.DS_Store
+Thumbs.db
+
+# Java 빌드 출력 폴더
+out/
+build/
+target/
+
+# 로그 / 임시 파일
+*.log
+*.tmp
+
+# nand2tetris (테스트시 생성되는 것들)
+*.hack
+*.out
