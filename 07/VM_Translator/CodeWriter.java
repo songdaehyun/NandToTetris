@@ -5,8 +5,11 @@ import java.util.*;
 
 public class CodeWriter {
     BufferedWriter wr;
-    String fileNameForStatic;
+    String fileName;
+    String functionName;
+    int returnCount;
     int labelCount = 0;
+
 
 
     public CodeWriter(BufferedWriter writer) throws FileNotFoundException {
@@ -14,11 +17,33 @@ public class CodeWriter {
     }
 
     public void setFileName(String fileName) {
-        this.fileNameForStatic = fileName;
+        this.fileName = fileName;
+        this.returnCount = 0;
+    }
+
+    public void setFunctionName(String funName){
+        this.functionName = funName;
     }
 
     public void writeInit() throws IOException {
-        // SP = 256
+        String spInit =
+                """
+                @256
+                D=A
+                @SP
+                M=D
+                """;
+        /*
+        String callSysInit =
+                """
+                @Sys.init
+                0;JMP
+                """;
+         */
+        String assembly = spInit;
+        System.out.println("writing Boot strap...");
+        wr.write(assembly);
+        wr.newLine();
     }
 
 
@@ -243,7 +268,7 @@ public class CodeWriter {
                                 
                                 @SP
                                 M=M+1
-                                """.formatted(fileNameForStatic, ind);
+                                """.formatted(fileName, ind);
                         break;
                     case "pop":
                         Assembly =
@@ -256,7 +281,7 @@ public class CodeWriter {
                                 
                                 @%s.%d
                                 M=D
-                                """.formatted(fileNameForStatic, ind);
+                                """.formatted(fileName, ind);
                         break;
                     default:
                         System.out.println("NOT PUSH OR POP");
@@ -388,7 +413,7 @@ public class CodeWriter {
     }
 
     public void writeLabel(String label) throws IOException{
-        String assembly = "(" + label + ")";
+        String assembly = "(%s.%s$%s)".formatted(fileName, functionName, label);
         System.out.println("writing label...");
         wr.write(assembly);
         wr.newLine();
@@ -397,15 +422,15 @@ public class CodeWriter {
     public void writeGoto(String label) throws IOException{
         String assembly =
                 """
-                @%s
+                @%s.%s$%s
                 0;JMP
-                """.formatted(label);
+                """.formatted(fileName, functionName, label);
         System.out.println("writing goto...");
         wr.write(assembly);
         wr.newLine();
     }
 
-    public void writeIf(String label) throws IOException{
+    public void writeIfGoto(String label) throws IOException{
         String assembly =
                 """
                 @SP
@@ -413,21 +438,26 @@ public class CodeWriter {
                 A=M
                 D=M
                 
-                @%s
+                @%s.%s$%s
                 D;JNE
-                """.formatted(label);
+                """.formatted(fileName, functionName, label);
         System.out.println("writing if-goto...");
         wr.write(assembly);
         wr.newLine();
     }
 
     public void writeFunction(String functionName, int nVars) throws IOException{
+        //함수선언할때 함수이름 저장.
+        setFunctionName(functionName);
+
         String functionlabel =
                 """
                 (%s)
                 """.formatted(functionName);
 
-        String assembly = "";
+        String assembly =
+                """
+                """;
         String pushNvars =
                 """
                 @SP
@@ -438,7 +468,7 @@ public class CodeWriter {
                 M=M+1
                 
                 """;
-        for (int i=0; i<nVars;i++ ){
+        for (int i=0; i<nVars; i++ ){
             assembly += pushNvars;
         }
         assembly = functionlabel + assembly;
@@ -447,17 +477,93 @@ public class CodeWriter {
         wr.newLine();
     }
 
-    public void writeCall(String command) throws IOException{
+    public void writeCall(String functionName, int nArgs) throws IOException{
+        returnCount += 1;
+        String returnAddress = "%s.%s$ret.%d".formatted(fileName, functionName, returnCount);
+        String pushRetAddr =
+                """
+                @%s
+                D=A
+                
+                @SP
+                A=M
+                M=D
+                
+                @SP
+                M=M+1
+                
+                """.formatted(returnAddress);
 
+        List<String> pointers = Arrays.asList("LCL", "ARG", "THIS", "THAT");
+
+        String pushFrame =
+                """
+                """;
+        for (String pointer : pointers) {
+            pushFrame +=
+            """
+            @%s
+            D=M
+            
+            @SP
+            A=M
+            M=D
+            
+            @SP
+            M=M+1
+            
+            """.formatted(pointer);
+        }
+
+        String argReposition =
+                """
+                @SP
+                D=M
+                @5
+                D=D-A
+                @%d
+                D=D-A
+                @ARG
+                M=D
+                
+                """.formatted(nArgs);
+
+        String lclReposition =
+                """
+                @SP
+                D=M
+                @LCL
+                M=D
+                
+                """;
+
+        String gotoFunction =
+                """
+                @%s
+                0;JMP
+                
+                """.formatted(functionName);
+        String returnLabel = "(" + returnAddress + ")";
+
+        String assembly = pushRetAddr + pushFrame + argReposition + lclReposition + gotoFunction + returnLabel;
+        System.out.println("writing Call...");
+        wr.write(assembly);
+        wr.newLine();
     }
 
     public void writeReturn() throws IOException{
-        String assembly1 = """
+        //13번 레지스터에 임시로 저장
+        String frameEnd =
+                """
                 @LCL
                 D=M
                 @R13
                 M=D
                 
+                """;
+        //14번 레지스터에 임시로 저장
+        String retAddr =
+                """
                 @R13
                 D=M
                 @5
@@ -467,6 +573,10 @@ public class CodeWriter {
                 @R14
                 M=D
                 
+                """;
+        //ARG[0]에 리턴값 저장
+        String retValue =
+                """
                 @SP
                 M=M-1
                 A=M
@@ -475,19 +585,23 @@ public class CodeWriter {
                 A=M
                 M=D
                 
+                """;
+        //SP를 재조정
+        String spReposition = """
                 @ARG
-                M=M+1
-                D=M
+                D=M+1
                 @SP
                 M=D
                 
                 """;
 
-        String assembly2 = "";
+        //caller의 context 다시 불러오기
+        String contextRecover =
+                """
+                """;
         List<String> pointers = Arrays.asList("THAT", "THIS", "ARG", "LCL");
-
         for(int i=1; i < pointers.size()+1; i++){
-            assembly2 +=
+            contextRecover +=
                     """
                     @R13
                     D=M
@@ -499,15 +613,16 @@ public class CodeWriter {
                     
                     """.formatted(i, pointers.get(i-1));
         }
-
-        String assembly3 = """
+        //돌아갈 주소
+        String gotoRetAddr =
+                """
                 @R14
                 A=M
                 0;JMP
                 
                 """;
 
-        String assembly = assembly1 + assembly2 + assembly3;
+        String assembly = frameEnd + retAddr + retValue + spReposition + contextRecover + gotoRetAddr;
         System.out.println("writing return...");
         wr.write(assembly);
         wr.newLine();

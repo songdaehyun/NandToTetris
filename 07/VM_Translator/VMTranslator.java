@@ -46,7 +46,8 @@ public class VMTranslator {
             CodeWriter asmWriter = new CodeWriter(wr);
             // 부트스트랩 코드
             if (vmFiles.length > 1) {
-                asmWriter.writeInit();  // 스택포인터 초기화 + Sys.init 호출
+                asmWriter.writeInit();// 스택포인터 초기화
+                asmWriter.writeCall("Sys.init", 0);// Sys.init 호출
             }
 
             for (File vmFile : vmFiles) {
@@ -89,7 +90,10 @@ public class VMTranslator {
                                     asmWriter.writeGoto(vmParser.arg1());
                                     break;
                                 case "C_IF":
-                                    asmWriter.writeIf(vmParser.arg1());
+                                    asmWriter.writeIfGoto(vmParser.arg1());
+                                    break;
+                                case "C_CALL":
+                                    asmWriter.writeCall(vmParser.arg1(), vmParser.arg2());
                                     break;
                                 case "C_FUNCTION":
                                     asmWriter.writeFunction(vmParser.arg1(), vmParser.arg2());
@@ -108,69 +112,6 @@ public class VMTranslator {
                 }
             }
         }
-
-
-
-
-
-        /*
-        String fileName = args[0].split("\\.")[0];
-        String readPath = "C:/Users/user/Documents/NandToTetris/07/vm/" + fileName + ".vm"; // 첫 번째 인자를 입력 파일 경로로 사용
-        String writePath = "C:/Users/user/Documents/NandToTetris/07/asm/" + fileName +  ".asm";
-
-        try(BufferedReader br = new BufferedReader(new FileReader(readPath));
-            BufferedWriter wr = new BufferedWriter(new FileWriter(writePath)))
-        {
-            Parser vmParser = new Parser(br);
-            CodeWriter asmWriter = new CodeWriter(wr, fileName);
-
-            while(vmParser.hasMoreLines()){
-                String line = vmParser.advance();
-                if(!line.isEmpty()){
-                    System.out.println("Translating " + line);
-                    System.out.println("Parsed like " + vmParser.commandType() + " " + vmParser.arg1() + " " + vmParser.arg2());
-
-                    //번역하는 라인 주석으로 쓰기
-                    wr.write("//" + line);
-                    wr.newLine();
-
-                    String type = vmParser.commandType();
-                    switch (type){
-                        case "C_ARITHMETIC":
-                            asmWriter.writeArithmetic(vmParser.arg1());
-                            break;
-                        case "C_PUSH":
-                            asmWriter.writePushPop("push",vmParser.arg1(), vmParser.arg2());
-                            break;
-                        case "C_POP":
-                            asmWriter.writePushPop("pop",vmParser.arg1(), vmParser.arg2());
-                            break;
-                        case "C_LABEL":
-                            asmWriter.writeLabel(vmParser.arg1());
-                            break;
-                        case "C_GOTO":
-                            asmWriter.writeGoto(vmParser.arg1());
-                            break;
-                        case "C_IF":
-                            asmWriter.writeIf(vmParser.arg1());
-                            break;
-                        case "C_FUNCTION":
-                            asmWriter.writeFunction(vmParser.arg1(), vmParser.arg2());
-                            break;
-                        case "C_RETURN":
-                            asmWriter.writeReturn();
-                            break;
-                        default:
-                            System.out.println("not valid command type");
-                    }
-                }
-            }
-            System.out.println("VM 파일 변환이 완료되었습니다.");
-        } catch (IOException e) {
-            System.err.println("처리 중 오류가 발생했습니다: " + e.getMessage());
-        }
-
-         */
     }
 
 }
