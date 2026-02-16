@@ -1,0 +1,173 @@
+class Ship {
+    field int health;
+    field Array coordinate; // [[x,y,state], [x,y,state], [x,y,state]] 구조
+
+    constructor Ship new(int x, int y, int direction) {
+        var int i;
+
+        let health = 3;
+        let coordinate = Array.new(3);
+        
+        // 각 파트별로 [x, y, alive_state]를 저장할 3칸짜리 배열 생성
+        let i = 0;
+        while (i < 3) {
+            let coordinate[i] = Array.new(3);
+            let i = i + 1;
+        }
+
+        // 방향(direction: 0상, 1우, 2하, 3좌)에 따른 좌표 설정
+        // x: 0~511, y: 0~255 범위 체크는 호출하는 쪽에서 했다고 가정하거나 여기서 수행
+        do setCoordinates(x, y, direction);
+
+        return this;
+    }
+
+    method void setCoordinates(int x, int y, int dir) {
+        var int i;
+        var Array part;
+        let i = 0;
+        do Screen.setColor(true);
+        while (i < 3) {
+            let part = coordinate[i];
+            if (dir = 0) { // 상 (y 감소)
+                let part[0] = x;
+                let part[1] = y - i;
+                do Screen.drawPixel(part[0], part[1]);
+            }
+            if (dir = 1) { // 우 (x 증가)
+                let part[0] = x + i;
+                let part[1] = y;
+                do Screen.drawPixel(part[0], part[1]);
+            }
+            if (dir = 2) { // 하 (y 증가)
+                let part[0] = x;
+                let part[1] = y + i;
+                do Screen.drawPixel(part[0], part[1]);
+            }
+            if (dir = 3) { // 좌 (x 감소)
+                let part[0] = x - i;
+                let part[1] = y;
+                do Screen.drawPixel(part[0], part[1]);
+            }
+            let part[2] = 1; // 1은 살아있음(alive) 상태
+            let i = i + 1;
+        }
+        return;
+    }
+
+
+
+    /** * 이 배가 (targetX, targetY) 좌표를 차지하고 있는지 확인 
+     */
+    method boolean isAt(int targetX, int targetY) {
+        var int i;
+        var Array part;
+        
+        let i = 0;
+        while (i < 3) {
+            let part = coordinate[i];
+            // part[0]은 x, part[1]은 y
+            if ((part[0] = targetX) & (part[1] = targetY)) {
+                return true; // 겹침!
+            }
+            let i = i + 1;
+        }
+        return false; // 안 겹침
+    }
+
+    method void move(int dx, int dy, Ship ship) {
+        var boolean flag;
+        var int i;
+        var Array part;
+        var int nx, ny;
+
+        let flag = true;
+        let i = 0;
+
+        // ===== 이동 가능 여부 체크 =====
+        while (i < 3) {
+            let part = coordinate[i];
+
+            let nx = part[0] + dx;
+            let ny = part[1] + dy;
+
+            // 512 x 256 범위 체크
+            if (nx < 0)  { let flag = false; }
+            if (nx > 511){ let flag = false; }
+            if (ny < 0)  { let flag = false; }
+            if (ny > 255){ let flag = false; }
+
+            if(ship.isAt(nx, ny)){
+                let flag = false;
+            }
+
+            let i = i + 1;
+        }
+
+        // ===== 실제 이동 =====
+        if (flag) {
+            let i = 0;
+
+            while (i < 3) {
+                let part = coordinate[i];
+
+                do Screen.setColor(false);
+                do Screen.drawPixel(part[0], part[1]);
+
+                let i = i + 1;
+            }
+
+            let i = 0;
+
+            while (i < 3) {
+                let part = coordinate[i];
+                let part[0] = part[0] + dx;
+                let part[1] = part[1] + dy;
+
+                do Screen.setColor(true);
+                do Screen.drawPixel(part[0], part[1]);
+
+                let i = i + 1;
+            }
+        }
+        return;
+    }
+
+    method void moveUp(Ship ship) {
+    do move(0, -1, ship);
+    return;
+    }
+
+    method void moveDown(Ship ship) {
+    do move(0, 1, ship);
+    return;
+    }
+
+    method void moveLeft(Ship ship) {
+    do move(-1, 0, ship);
+    return;
+    }   
+
+    method void moveRight(Ship ship) {
+    do move(1, 0, ship);
+    return;
+    }
+
+
+    method void dispose() {
+        var int i;
+        var Array part;
+        let i = 0;
+        // 내부 배열(part)부터 먼저 해제해야 메모리 누수가 없습니다.
+        do Screen.setColor(false);
+        while (i < 3) {
+            let part = coordinate[i];
+            do Screen.drawPixel(part[0], part[1]);
+            do part.dispose();
+            let i = i + 1;
+        }
+        do coordinate.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}

@@ -1,0 +1,97 @@
+class Test {
+    field Control control;
+    field BattleShip battleShip;
+    field Random random;
+
+    constructor Test new() {
+        let control = Control.new();
+        return this;
+    }
+
+    method void test_control() {
+
+        //control test
+        do control.printInstruction("hello");
+        
+        return;
+    }
+
+    method void test_random() {
+        //random test
+        var int userDateInput;
+        var int seed;
+        var int x;
+        var int y;
+        var int d;
+        var int i;
+        let seed = Keyboard.readInt(userDateInput);
+
+
+        let random = Random.new(seed);
+        let i = 0;
+        while(i < 10){
+            let x = random.generateX();
+            let y = random.generateY();
+            let d = random.generateD();
+            do Output.printInt(x);
+            do Output.println();
+            do Output.printInt(y);
+            do Output.println();
+            do Output.printInt(d);
+            do Output.println();
+            do Sys.wait(1000);
+            do Screen.clearScreen();
+            let i = i + 1;
+        }
+
+
+        return;
+    }
+
+    method void test_ship() {
+        var int userInput;
+        var Ship myShip;
+        var Ship enemyShip;
+        var Control ct;
+
+        let ct = Control.new();
+        let userInput = Keyboard.readInt(userInput);
+        do Screen.clearScreen();
+        let battleShip = BattleShip.new(userInput, ct);
+
+        do battleShip.makeMyShip();
+        do battleShip.makeEnemyShip();
+
+        let myShip = battleShip.getMyShip();
+        let enemyShip = battleShip.getEnemyShip();
+
+        do myShip.moveUp(enemyShip);
+        do Sys.wait(500);
+        do myShip.moveDown(enemyShip);
+        do Sys.wait(500);
+        do myShip.moveLeft(enemyShip);
+        do Sys.wait(500);
+        do myShip.moveRight(enemyShip);
+        do Sys.wait(500);
+
+        do enemyShip.moveUp(myShip);
+        do Sys.wait(500);
+        do enemyShip.moveDown(myShip);
+        do Sys.wait(500);
+        do enemyShip.moveLeft(myShip);
+        do Sys.wait(500);
+        do enemyShip.moveRight(myShip);
+        do Sys.wait(500);
+
+        do myShip.dispose();
+        do enemyShip.dispose();
+        return;
+    }
+
+    /** Disposes this test. */
+    method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+    }
+
+}

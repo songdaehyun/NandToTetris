@@ -1,0 +1,48 @@
+class Control {
+    field String dummy;
+
+    constructor Control new() {
+        let dummy = String.new(1);
+        return this;
+    }
+
+    /** Disposes this control. */
+    method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+    }
+
+    method void printInstruction(String s){
+        var int i;
+        var String eraseString;
+        let i = 0;
+        let eraseString = String.new(50);
+        while(i < 50){
+            let eraseString =  eraseString.appendChar(32);
+            let i = i + 1;
+        }
+        do Output.printString(s);
+        do Sys.wait(3000);
+        do Output.moveCursor(0,0);
+        do Output.printString(eraseString);
+        do Output.moveCursor(0,0);
+        return;
+    }
+
+    method int integerInput(String s) {
+        var int i, integer;
+        var String eraseString;
+        let i = 0;
+        let eraseString = String.new(50);
+        while(i < 50){
+            let eraseString =  eraseString.appendChar(32);
+            let i = i + 1;
+        }
+        let integer = Keyboard.readInt(s);
+        do Output.moveCursor(0,0);
+        do Output.printString(eraseString);
+        do Output.moveCursor(0,0);
+        return integer;
+    }
+
+}

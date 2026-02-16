@@ -1,0 +1,230 @@
+class BattleShip {
+    field Ship myShip;
+    field Ship enemyShip;
+    field Random random;
+    field Control ct;
+    field int turn; //0: my turn, 1: enemy turn
+    field int seed;
+
+    constructor BattleShip new(int randomNumber, Control control) {
+        let turn = 0;
+        let seed = randomNumber;
+        let random = Random.new(seed);
+        let ct = control;
+        return this;
+    }
+
+    method void start() {
+        var int i;
+        var int j;
+        var int flag;
+        var int userX, userY, userD, userAction;
+        var int enemyX, enemyY, enemyD, enemyAction;
+        var int userQuit;
+        var Array part;
+
+        let flag = 1;
+
+        while(flag = 1){
+            if(turn = 0){
+                let userAction = ct.integerInput("Attack(0) or Move(1)? enter 0 or 1:");
+                if (userAction = 0){
+                    let userX = ct.integerInput("enter X coordinate:");
+                    let userY = ct.integerInput("enter Y coordinate:");
+                    if(enemyShip.isAt(userX, userY)){
+                        //적군의 배를 맞췄음. 당신의 승리
+                        do ct.printInstruction("you win!");
+                        
+                        let flag = 0;
+                    } else {
+                        do ct.printInstruction("you missed the target!");
+                        
+                    }
+                }
+
+                if (userAction = 1){
+                    let userD = ct.integerInput("enter direction(0-up, 1-right, 2-down, 3-left):");
+                    if(userD = 0){
+                        do myShip.moveUp(enemyShip);
+                    }
+                    if(userD = 1){
+                        do myShip.moveRight(enemyShip);
+                    }
+                    if(userD = 2){
+                        do myShip.moveDown(enemyShip);
+                    }
+                    if(userD = 3){
+                        do myShip.moveLeft(enemyShip);
+                    }
+                }
+
+                let turn = 1;
+            } else {
+                let enemyAction = random.generateD();
+                let enemyAction = (enemyAction & 1);
+                
+                if (enemyAction = 0) {
+                    let enemyX = random.generateX();
+                    let enemyY = random.generateY();
+                    if(myShip.isAt(enemyX, enemyY)){
+                        //당신의 배는 피격됬음. 패배
+                        do ct.printInstruction("you lose!");
+                        
+                        let flag = 0;
+                    } else {
+                        //적군의 공격이 빗나감.
+                        do ct.printInstruction("enemy missed the target!");
+                        
+                    }
+                }
+                if (enemyAction = 1) {
+                    let enemyD = random.generateD();
+                    if(enemyD = 0){
+                        do enemyShip.moveUp(myShip);
+                    }
+                    if(enemyD = 1){
+                        do enemyShip.moveRight(myShip);
+                    }
+                    if(enemyD = 2){
+                        do enemyShip.moveDown(myShip);
+                    }
+                    if(enemyD = 3){
+                        do enemyShip.moveLeft(myShip);
+                    }
+                    do ct.printInstruction("enemy moved!");
+                    
+                }
+
+                let turn = 0;
+            }
+        }
+           
+        return;
+    }
+
+    method Ship getMyShip(){
+        return myShip;
+    }
+
+    method Ship getEnemyShip(){
+        return enemyShip;
+    }
+
+    method void makeMyShip(){
+        //my ship build
+        var int my_x;
+        var int my_y;
+        var int my_d;
+        var int i;
+        var boolean valid;
+
+        let my_x = random.generateX();
+        let my_y = random.generateY();
+        let i = 1;
+        while (i > 0){
+            let my_d = random.generateD();
+            let valid = BattleShip.isValid(my_x, my_y, my_d);
+            if (valid){
+                let myShip = Ship.new(my_x, my_y, my_d);
+                let i = 0;
+            }
+        }
+        return;
+    }
+
+    method void makeEnemyShip(){
+        //enemy ship build
+        var int en_x;
+        var int en_y;
+        var int en_d;
+        var int i;
+        var boolean collision;
+        var boolean valid;
+
+        let i = 1;
+        while (i>0){
+            let en_x = random.generateX();
+            let en_y = random.generateY();
+            let en_d = random.generateD();
+            let valid = BattleShip.isValid(en_x, en_y, en_d);
+            if(valid){
+                let collision = BattleShip.checkCollision(en_x, en_y, en_d, myShip);
+                if(~collision){
+                    let enemyShip = Ship.new(en_x, en_y, en_d);
+                    let i = 0;
+                }
+            }
+        }
+        return;
+    }
+
+
+    /**
+     * 주어진 좌표(x, y)와 방향(dir)으로 배를 놓았을 때 
+     * 화면(512x256)을 벗어나는지 검사합니다.
+     * @return boolean (true: 배치 가능, false: 화면 밖으로 나감)
+     */
+    function boolean isValid(int x, int y, int dir) {
+
+        // 1. 방향별로 배의 꼬리 부분이 화면을 벗어나는지 체크 (길이 3)
+        // dir 0: 상 (위로 2칸 더 감 -> y - 2)
+        if (dir = 0) {
+            if ((y - 2) < 0) { return false; }
+        }
+
+        // dir 1: 우 (오른쪽으로 2칸 더 감 -> x + 2)
+        if (dir = 1) {
+            if ((x + 2) > 511) { return false; }
+        }
+
+        // dir 2: 하 (아래로 2칸 더 감 -> y + 2)
+        if (dir = 2) {
+            if ((y + 2) > 255) { return false; }
+        }
+
+        // dir 3: 좌 (왼쪽으로 2칸 더 감 -> x - 2)
+        if (dir = 3) {
+            if ((x - 2) < 0) { return false; }
+        }
+
+        // 모든 검사를 통과하면 true
+        return true;
+    }
+
+
+    /** * 가상의 배(x, y, dir)를 놓았을 때 기존 배들과 겹치는지 검사 
+     * true: 겹침 (충돌), false: 안 겹침 (안전)
+     */
+    function boolean checkCollision(int x, int y, int dir, Ship ship) {
+        var int i, k;
+        var int tx, ty; // 가상의 테스트 좌표
+        var Ship currentShip;
+
+        // 새로 놓일 배의 3칸 좌표를 하나씩 계산해서 체크
+        let k = 0;
+        while (k < 3) {
+            // 방향에 따른 k번째 칸의 좌표 계산 (Ship 클래스 로직과 동일해야 함)
+            if (dir = 0) { let tx = x; let ty = y - k; }     // 상
+            if (dir = 1) { let tx = x + k; let ty = y; }     // 우
+            if (dir = 2) { let tx = x; let ty = y + k; }     // 하
+            if (dir = 3) { let tx = x - k; let ty = y; }     // 좌
+            
+            // 이 좌표(tx, ty)가 기존 배들 중 하나라도 겹치는지 확인
+          
+            let currentShip = ship;
+            if (currentShip.isAt(tx, ty)) {
+                return true; // 충돌 발생! 
+            }
+            let k = k + 1;
+        }
+        return false; // 모든 칸이 안전함
+    }
+
+    method void dispose() {
+        do random.dispose();
+        do myShip.dispose();
+        do enemyShip.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}

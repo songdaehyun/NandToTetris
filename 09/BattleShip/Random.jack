@@ -1,0 +1,36 @@
+class Random {
+    field int a, b, xSeed, ySeed, dSeed;
+
+    constructor Random new(int seed) {
+        let a = 25173; 
+        let b = 13849;
+        let xSeed = seed;
+        let ySeed = seed + 1;
+        let dSeed = seed + 2;
+        return this;
+    }
+
+    /** 0 ~ 511 사이의 가로 좌표 생성 */
+    method int generateX() {
+        // LCG 공식 적용: (a * seed + b)
+        let xSeed = Math.multiply(a, xSeed) + b;
+        return (xSeed & 511);
+    }
+
+    /** 0 ~ 255 사이의 세로 좌표 생성 */
+    method int generateY() {
+        let ySeed = Math.multiply(a, ySeed) + b;
+        return (ySeed & 255);
+    }
+
+    /** 0 ~ 3 사이의 Direction 생성 */
+    method int generateD() {
+        let dSeed = Math.multiply(a, dSeed) + b;
+        return (dSeed & 3);
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}

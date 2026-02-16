@@ -1,0 +1,36 @@
+class Main {
+    function void main() {
+      /**
+      var Test test;
+      do test.test_control();
+      */
+
+      
+      var int i;
+      var int seed;
+      var int quit;
+      var Control control;
+      var BattleShip battleShip;
+      
+
+      
+      let i = 1;
+      let control = Control.new();
+      while(i = 1){
+        let seed = control.integerInput("Enter any number to play:");
+        let battleShip = BattleShip.new(seed, control);
+        do battleShip.makeMyShip();
+        do battleShip.makeEnemyShip();
+        do battleShip.start();
+        do battleShip.dispose();
+
+        let quit = control.integerInput("Enter 0 to quit or Enter 1 to play agian:");
+        if(quit = 0){
+          let i = 0;
+        }
+      }
+      
+      return;
+    }
+
+}
