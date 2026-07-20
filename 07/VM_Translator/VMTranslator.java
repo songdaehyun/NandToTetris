@@ -44,7 +44,7 @@ public class VMTranslator {
 
         try(BufferedWriter wr = new BufferedWriter(new FileWriter(writePath))){
             CodeWriter asmWriter = new CodeWriter(wr);
-            // 부트스트랩 코드
+            // 부트스트랩 코드; 길이가 > 1 인 이유는 테스트 단계상의 이유. 교재 167p 참조.
             if (vmFiles.length > 1) {
                 asmWriter.writeInit();// 스택포인터 초기화
                 asmWriter.writeCall("Sys.init", 0);// Sys.init 호출

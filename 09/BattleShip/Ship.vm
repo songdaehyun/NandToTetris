@@ -1,0 +1,572 @@
+function Ship.new 1
+    push constant 2
+    call Memory.alloc 1
+    pop pointer 0
+    push constant 3
+    pop this 0
+    push constant 3
+    call Array.new 1
+    pop this 1
+    push constant 0
+    pop local 0
+label Ship_0
+    push local 0
+    push constant 3
+    lt
+    not
+    if-goto Ship_1
+    push local 0
+    push this 1
+    add
+    push constant 3
+    call Array.new 1
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto Ship_0
+label Ship_1
+    push pointer 0
+    push argument 0
+    push argument 1
+    push argument 2
+    call Ship.setCoordinates 4
+    pop temp 0
+    push pointer 0
+    return
+function Ship.setCoordinates 2
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+label Ship_2
+    push local 0
+    push constant 3
+    lt
+    not
+    if-goto Ship_3
+    push local 0
+    push this 1
+    add
+    pop pointer 1
+    push that 0
+    pop local 1
+    push argument 3
+    push constant 0
+    eq
+    not
+    if-goto Ship_5
+    push constant 0
+    push local 1
+    add
+    push argument 1
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 1
+    push local 1
+    add
+    push argument 2
+    push local 0
+    sub
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 0
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    call Screen.drawPixel 2
+    pop temp 0
+    goto Ship_4
+label Ship_5
+label Ship_4
+    push argument 3
+    push constant 1
+    eq
+    not
+    if-goto Ship_7
+    push constant 0
+    push local 1
+    add
+    push argument 1
+    push local 0
+    add
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 1
+    push local 1
+    add
+    push argument 2
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 0
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    call Screen.drawPixel 2
+    pop temp 0
+    goto Ship_6
+label Ship_7
+label Ship_6
+    push argument 3
+    push constant 2
+    eq
+    not
+    if-goto Ship_9
+    push constant 0
+    push local 1
+    add
+    push argument 1
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 1
+    push local 1
+    add
+    push argument 2
+    push local 0
+    add
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 0
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    call Screen.drawPixel 2
+    pop temp 0
+    goto Ship_8
+label Ship_9
+label Ship_8
+    push argument 3
+    push constant 3
+    eq
+    not
+    if-goto Ship_11
+    push constant 0
+    push local 1
+    add
+    push argument 1
+    push local 0
+    sub
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 1
+    push local 1
+    add
+    push argument 2
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 0
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    call Screen.drawPixel 2
+    pop temp 0
+    goto Ship_10
+label Ship_11
+label Ship_10
+    push constant 2
+    push local 1
+    add
+    push constant 1
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto Ship_2
+label Ship_3
+    push constant 0
+    return
+function Ship.isAt 2
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+label Ship_12
+    push local 0
+    push constant 3
+    lt
+    not
+    if-goto Ship_13
+    push local 0
+    push this 1
+    add
+    pop pointer 1
+    push that 0
+    pop local 1
+    push constant 0
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    push argument 1
+    eq
+    push constant 1
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    push argument 2
+    eq
+    and
+    not
+    if-goto Ship_15
+    push constant 1
+    neg
+    return
+    goto Ship_14
+label Ship_15
+label Ship_14
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto Ship_12
+label Ship_13
+    push constant 0
+    return
+function Ship.move 5
+    push argument 0
+    pop pointer 0
+    push constant 1
+    neg
+    pop local 0
+    push constant 0
+    pop local 1
+label Ship_16
+    push local 1
+    push constant 3
+    lt
+    not
+    if-goto Ship_17
+    push local 1
+    push this 1
+    add
+    pop pointer 1
+    push that 0
+    pop local 2
+    push constant 0
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    push argument 1
+    add
+    pop local 3
+    push constant 1
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    push argument 2
+    add
+    pop local 4
+    push local 3
+    push constant 0
+    lt
+    not
+    if-goto Ship_19
+    push constant 0
+    pop local 0
+    goto Ship_18
+label Ship_19
+label Ship_18
+    push local 3
+    push constant 511
+    gt
+    not
+    if-goto Ship_21
+    push constant 0
+    pop local 0
+    goto Ship_20
+label Ship_21
+label Ship_20
+    push local 4
+    push constant 0
+    lt
+    not
+    if-goto Ship_23
+    push constant 0
+    pop local 0
+    goto Ship_22
+label Ship_23
+label Ship_22
+    push local 4
+    push constant 255
+    gt
+    not
+    if-goto Ship_25
+    push constant 0
+    pop local 0
+    goto Ship_24
+label Ship_25
+label Ship_24
+    push argument 3
+    push local 3
+    push local 4
+    call Ship.isAt 3
+    not
+    if-goto Ship_27
+    push constant 0
+    pop local 0
+    goto Ship_26
+label Ship_27
+label Ship_26
+    push local 1
+    push constant 1
+    add
+    pop local 1
+    goto Ship_16
+label Ship_17
+    push local 0
+    not
+    if-goto Ship_29
+    push constant 0
+    pop local 1
+label Ship_30
+    push local 1
+    push constant 3
+    lt
+    not
+    if-goto Ship_31
+    push local 1
+    push this 1
+    add
+    pop pointer 1
+    push that 0
+    pop local 2
+    push constant 0
+    call Screen.setColor 1
+    pop temp 0
+    push constant 0
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    call Screen.drawPixel 2
+    pop temp 0
+    push local 1
+    push constant 1
+    add
+    pop local 1
+    goto Ship_30
+label Ship_31
+    push constant 0
+    pop local 1
+label Ship_32
+    push local 1
+    push constant 3
+    lt
+    not
+    if-goto Ship_33
+    push local 1
+    push this 1
+    add
+    pop pointer 1
+    push that 0
+    pop local 2
+    push constant 0
+    push local 2
+    add
+    push constant 0
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    push argument 1
+    add
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 1
+    push local 2
+    add
+    push constant 1
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    push argument 2
+    add
+    pop temp 0
+    pop pointer 1
+    push temp 0
+    pop that 0
+    push constant 1
+    neg
+    call Screen.setColor 1
+    pop temp 0
+    push constant 0
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    push local 2
+    add
+    pop pointer 1
+    push that 0
+    call Screen.drawPixel 2
+    pop temp 0
+    push local 1
+    push constant 1
+    add
+    pop local 1
+    goto Ship_32
+label Ship_33
+    goto Ship_28
+label Ship_29
+label Ship_28
+    push constant 0
+    return
+function Ship.moveUp 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    push constant 0
+    push constant 1
+    neg
+    push argument 1
+    call Ship.move 4
+    pop temp 0
+    push constant 0
+    return
+function Ship.moveDown 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    push constant 0
+    push constant 1
+    push argument 1
+    call Ship.move 4
+    pop temp 0
+    push constant 0
+    return
+function Ship.moveLeft 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    push constant 1
+    neg
+    push constant 0
+    push argument 1
+    call Ship.move 4
+    pop temp 0
+    push constant 0
+    return
+function Ship.moveRight 0
+    push argument 0
+    pop pointer 0
+    push pointer 0
+    push constant 1
+    push constant 0
+    push argument 1
+    call Ship.move 4
+    pop temp 0
+    push constant 0
+    return
+function Ship.dispose 2
+    push argument 0
+    pop pointer 0
+    push constant 0
+    pop local 0
+    push constant 0
+    call Screen.setColor 1
+    pop temp 0
+label Ship_34
+    push local 0
+    push constant 3
+    lt
+    not
+    if-goto Ship_35
+    push local 0
+    push this 1
+    add
+    pop pointer 1
+    push that 0
+    pop local 1
+    push constant 0
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    push constant 1
+    push local 1
+    add
+    pop pointer 1
+    push that 0
+    call Screen.drawPixel 2
+    pop temp 0
+    push local 1
+    call Array.dispose 1
+    pop temp 0
+    push local 0
+    push constant 1
+    add
+    pop local 0
+    goto Ship_34
+label Ship_35
+    push this 1
+    call Array.dispose 1
+    pop temp 0
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return

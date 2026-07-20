@@ -1,0 +1,938 @@
+function BattleShip.new 0
+    push constant 6
+    call Memory.alloc 1
+    pop pointer 0
+    push constant 0
+    pop this 4
+    push argument 0
+    pop this 5
+    push this 5
+    call Random.new 1
+    pop this 2
+    push argument 1
+    pop this 3
+    push pointer 0
+    return
+function BattleShip.start 13
+    push argument 0
+    pop pointer 0
+    push constant 1
+    pop local 2
+label BattleShip_0
+    push local 2
+    push constant 1
+    eq
+    not
+    if-goto BattleShip_1
+    push this 4
+    push constant 0
+    eq
+    not
+    if-goto BattleShip_3
+    push this 3
+    push constant 35
+    call String.new 1
+    push constant 65
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 97
+    call String.appendChar 2
+    push constant 99
+    call String.appendChar 2
+    push constant 107
+    call String.appendChar 2
+    push constant 40
+    call String.appendChar 2
+    push constant 48
+    call String.appendChar 2
+    push constant 41
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 77
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 118
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 40
+    call String.appendChar 2
+    push constant 49
+    call String.appendChar 2
+    push constant 41
+    call String.appendChar 2
+    push constant 63
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 48
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 49
+    call String.appendChar 2
+    push constant 58
+    call String.appendChar 2
+    call Control.integerInput 2
+    pop local 6
+    push local 6
+    push constant 0
+    eq
+    not
+    if-goto BattleShip_5
+    push this 3
+    push constant 19
+    call String.new 1
+    push constant 101
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 88
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 99
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 100
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 97
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 58
+    call String.appendChar 2
+    call Control.integerInput 2
+    pop local 3
+    push this 3
+    push constant 19
+    call String.new 1
+    push constant 101
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 89
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 99
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 100
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 97
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 58
+    call String.appendChar 2
+    call Control.integerInput 2
+    pop local 4
+    push this 1
+    push local 3
+    push local 4
+    call Ship.isAt 3
+    not
+    if-goto BattleShip_7
+    push this 3
+    push constant 8
+    call String.new 1
+    push constant 121
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 117
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 119
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 33
+    call String.appendChar 2
+    call Control.printInstruction 2
+    pop temp 0
+    push constant 0
+    pop local 2
+    goto BattleShip_6
+label BattleShip_7
+    push this 3
+    push constant 22
+    call String.new 1
+    push constant 121
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 117
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 109
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 115
+    call String.appendChar 2
+    push constant 115
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 100
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 104
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 97
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 103
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 33
+    call String.appendChar 2
+    call Control.printInstruction 2
+    pop temp 0
+label BattleShip_6
+    goto BattleShip_4
+label BattleShip_5
+label BattleShip_4
+    push local 6
+    push constant 1
+    eq
+    not
+    if-goto BattleShip_9
+    push this 3
+    push constant 47
+    call String.new 1
+    push constant 101
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 100
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 99
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 40
+    call String.appendChar 2
+    push constant 48
+    call String.appendChar 2
+    push constant 45
+    call String.appendChar 2
+    push constant 117
+    call String.appendChar 2
+    push constant 112
+    call String.appendChar 2
+    push constant 44
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 49
+    call String.appendChar 2
+    push constant 45
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 103
+    call String.appendChar 2
+    push constant 104
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 44
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 50
+    call String.appendChar 2
+    push constant 45
+    call String.appendChar 2
+    push constant 100
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 119
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 44
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 51
+    call String.appendChar 2
+    push constant 45
+    call String.appendChar 2
+    push constant 108
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 102
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 41
+    call String.appendChar 2
+    push constant 58
+    call String.appendChar 2
+    call Control.integerInput 2
+    pop local 5
+    push local 5
+    push constant 0
+    eq
+    not
+    if-goto BattleShip_11
+    push this 0
+    push this 1
+    call Ship.moveUp 2
+    pop temp 0
+    goto BattleShip_10
+label BattleShip_11
+label BattleShip_10
+    push local 5
+    push constant 1
+    eq
+    not
+    if-goto BattleShip_13
+    push this 0
+    push this 1
+    call Ship.moveRight 2
+    pop temp 0
+    goto BattleShip_12
+label BattleShip_13
+label BattleShip_12
+    push local 5
+    push constant 2
+    eq
+    not
+    if-goto BattleShip_15
+    push this 0
+    push this 1
+    call Ship.moveDown 2
+    pop temp 0
+    goto BattleShip_14
+label BattleShip_15
+label BattleShip_14
+    push local 5
+    push constant 3
+    eq
+    not
+    if-goto BattleShip_17
+    push this 0
+    push this 1
+    call Ship.moveLeft 2
+    pop temp 0
+    goto BattleShip_16
+label BattleShip_17
+label BattleShip_16
+    goto BattleShip_8
+label BattleShip_9
+label BattleShip_8
+    push constant 1
+    pop this 4
+    goto BattleShip_2
+label BattleShip_3
+    push this 2
+    call Random.generateD 1
+    pop local 10
+    push local 10
+    push constant 1
+    and
+    pop local 10
+    push local 10
+    push constant 0
+    eq
+    not
+    if-goto BattleShip_19
+    push this 2
+    call Random.generateX 1
+    pop local 7
+    push this 2
+    call Random.generateY 1
+    pop local 8
+    push this 0
+    push local 7
+    push local 8
+    call Ship.isAt 3
+    not
+    if-goto BattleShip_21
+    push this 3
+    push constant 9
+    call String.new 1
+    push constant 121
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 117
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 108
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 115
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 33
+    call String.appendChar 2
+    call Control.printInstruction 2
+    pop temp 0
+    push constant 0
+    pop local 2
+    goto BattleShip_20
+label BattleShip_21
+    push this 3
+    push constant 24
+    call String.new 1
+    push constant 101
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 109
+    call String.appendChar 2
+    push constant 121
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 109
+    call String.appendChar 2
+    push constant 105
+    call String.appendChar 2
+    push constant 115
+    call String.appendChar 2
+    push constant 115
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 100
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 104
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 97
+    call String.appendChar 2
+    push constant 114
+    call String.appendChar 2
+    push constant 103
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 116
+    call String.appendChar 2
+    push constant 33
+    call String.appendChar 2
+    call Control.printInstruction 2
+    pop temp 0
+label BattleShip_20
+    goto BattleShip_18
+label BattleShip_19
+label BattleShip_18
+    push local 10
+    push constant 1
+    eq
+    not
+    if-goto BattleShip_23
+    push this 2
+    call Random.generateD 1
+    pop local 9
+    push local 9
+    push constant 0
+    eq
+    not
+    if-goto BattleShip_25
+    push this 1
+    push this 0
+    call Ship.moveUp 2
+    pop temp 0
+    goto BattleShip_24
+label BattleShip_25
+label BattleShip_24
+    push local 9
+    push constant 1
+    eq
+    not
+    if-goto BattleShip_27
+    push this 1
+    push this 0
+    call Ship.moveRight 2
+    pop temp 0
+    goto BattleShip_26
+label BattleShip_27
+label BattleShip_26
+    push local 9
+    push constant 2
+    eq
+    not
+    if-goto BattleShip_29
+    push this 1
+    push this 0
+    call Ship.moveDown 2
+    pop temp 0
+    goto BattleShip_28
+label BattleShip_29
+label BattleShip_28
+    push local 9
+    push constant 3
+    eq
+    not
+    if-goto BattleShip_31
+    push this 1
+    push this 0
+    call Ship.moveLeft 2
+    pop temp 0
+    goto BattleShip_30
+label BattleShip_31
+label BattleShip_30
+    push this 3
+    push constant 12
+    call String.new 1
+    push constant 101
+    call String.appendChar 2
+    push constant 110
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 109
+    call String.appendChar 2
+    push constant 121
+    call String.appendChar 2
+    push constant 32
+    call String.appendChar 2
+    push constant 109
+    call String.appendChar 2
+    push constant 111
+    call String.appendChar 2
+    push constant 118
+    call String.appendChar 2
+    push constant 101
+    call String.appendChar 2
+    push constant 100
+    call String.appendChar 2
+    push constant 33
+    call String.appendChar 2
+    call Control.printInstruction 2
+    pop temp 0
+    goto BattleShip_22
+label BattleShip_23
+label BattleShip_22
+    push constant 0
+    pop this 4
+label BattleShip_2
+    goto BattleShip_0
+label BattleShip_1
+    push constant 0
+    return
+function BattleShip.getMyShip 0
+    push argument 0
+    pop pointer 0
+    push this 0
+    return
+function BattleShip.getEnemyShip 0
+    push argument 0
+    pop pointer 0
+    push this 1
+    return
+function BattleShip.makeMyShip 5
+    push argument 0
+    pop pointer 0
+    push this 2
+    call Random.generateX 1
+    pop local 0
+    push this 2
+    call Random.generateY 1
+    pop local 1
+    push constant 1
+    pop local 3
+label BattleShip_32
+    push local 3
+    push constant 0
+    gt
+    not
+    if-goto BattleShip_33
+    push this 2
+    call Random.generateD 1
+    pop local 2
+    push local 0
+    push local 1
+    push local 2
+    call BattleShip.isValid 3
+    pop local 4
+    push local 4
+    not
+    if-goto BattleShip_35
+    push local 0
+    push local 1
+    push local 2
+    call Ship.new 3
+    pop this 0
+    push constant 0
+    pop local 3
+    goto BattleShip_34
+label BattleShip_35
+label BattleShip_34
+    goto BattleShip_32
+label BattleShip_33
+    push constant 0
+    return
+function BattleShip.makeEnemyShip 6
+    push argument 0
+    pop pointer 0
+    push constant 1
+    pop local 3
+label BattleShip_36
+    push local 3
+    push constant 0
+    gt
+    not
+    if-goto BattleShip_37
+    push this 2
+    call Random.generateX 1
+    pop local 0
+    push this 2
+    call Random.generateY 1
+    pop local 1
+    push this 2
+    call Random.generateD 1
+    pop local 2
+    push local 0
+    push local 1
+    push local 2
+    call BattleShip.isValid 3
+    pop local 5
+    push local 5
+    not
+    if-goto BattleShip_39
+    push local 0
+    push local 1
+    push local 2
+    push this 0
+    call BattleShip.checkCollision 4
+    pop local 4
+    push local 4
+    not
+    not
+    if-goto BattleShip_41
+    push local 0
+    push local 1
+    push local 2
+    call Ship.new 3
+    pop this 1
+    push constant 0
+    pop local 3
+    goto BattleShip_40
+label BattleShip_41
+label BattleShip_40
+    goto BattleShip_38
+label BattleShip_39
+label BattleShip_38
+    goto BattleShip_36
+label BattleShip_37
+    push constant 0
+    return
+function BattleShip.isValid 0
+    push argument 2
+    push constant 0
+    eq
+    not
+    if-goto BattleShip_43
+    push argument 1
+    push constant 2
+    sub
+    push constant 0
+    lt
+    not
+    if-goto BattleShip_45
+    push constant 0
+    return
+    goto BattleShip_44
+label BattleShip_45
+label BattleShip_44
+    goto BattleShip_42
+label BattleShip_43
+label BattleShip_42
+    push argument 2
+    push constant 1
+    eq
+    not
+    if-goto BattleShip_47
+    push argument 0
+    push constant 2
+    add
+    push constant 511
+    gt
+    not
+    if-goto BattleShip_49
+    push constant 0
+    return
+    goto BattleShip_48
+label BattleShip_49
+label BattleShip_48
+    goto BattleShip_46
+label BattleShip_47
+label BattleShip_46
+    push argument 2
+    push constant 2
+    eq
+    not
+    if-goto BattleShip_51
+    push argument 1
+    push constant 2
+    add
+    push constant 255
+    gt
+    not
+    if-goto BattleShip_53
+    push constant 0
+    return
+    goto BattleShip_52
+label BattleShip_53
+label BattleShip_52
+    goto BattleShip_50
+label BattleShip_51
+label BattleShip_50
+    push argument 2
+    push constant 3
+    eq
+    not
+    if-goto BattleShip_55
+    push argument 0
+    push constant 2
+    sub
+    push constant 0
+    lt
+    not
+    if-goto BattleShip_57
+    push constant 0
+    return
+    goto BattleShip_56
+label BattleShip_57
+label BattleShip_56
+    goto BattleShip_54
+label BattleShip_55
+label BattleShip_54
+    push constant 1
+    neg
+    return
+function BattleShip.checkCollision 5
+    push constant 0
+    pop local 1
+label BattleShip_58
+    push local 1
+    push constant 3
+    lt
+    not
+    if-goto BattleShip_59
+    push argument 2
+    push constant 0
+    eq
+    not
+    if-goto BattleShip_61
+    push argument 0
+    pop local 2
+    push argument 1
+    push local 1
+    sub
+    pop local 3
+    goto BattleShip_60
+label BattleShip_61
+label BattleShip_60
+    push argument 2
+    push constant 1
+    eq
+    not
+    if-goto BattleShip_63
+    push argument 0
+    push local 1
+    add
+    pop local 2
+    push argument 1
+    pop local 3
+    goto BattleShip_62
+label BattleShip_63
+label BattleShip_62
+    push argument 2
+    push constant 2
+    eq
+    not
+    if-goto BattleShip_65
+    push argument 0
+    pop local 2
+    push argument 1
+    push local 1
+    add
+    pop local 3
+    goto BattleShip_64
+label BattleShip_65
+label BattleShip_64
+    push argument 2
+    push constant 3
+    eq
+    not
+    if-goto BattleShip_67
+    push argument 0
+    push local 1
+    sub
+    pop local 2
+    push argument 1
+    pop local 3
+    goto BattleShip_66
+label BattleShip_67
+label BattleShip_66
+    push argument 3
+    pop local 4
+    push local 4
+    push local 2
+    push local 3
+    call Ship.isAt 3
+    not
+    if-goto BattleShip_69
+    push constant 1
+    neg
+    return
+    goto BattleShip_68
+label BattleShip_69
+label BattleShip_68
+    push local 1
+    push constant 1
+    add
+    pop local 1
+    goto BattleShip_58
+label BattleShip_59
+    push constant 0
+    return
+function BattleShip.dispose 0
+    push argument 0
+    pop pointer 0
+    push this 2
+    call Random.dispose 1
+    pop temp 0
+    push this 0
+    call Ship.dispose 1
+    pop temp 0
+    push this 1
+    call Ship.dispose 1
+    pop temp 0
+    push pointer 0
+    call Memory.deAlloc 1
+    pop temp 0
+    push constant 0
+    return
