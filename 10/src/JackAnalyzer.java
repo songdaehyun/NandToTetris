@@ -48,12 +48,17 @@ public class JackAnalyzer {
 
            String fileName = file.getName();
            String nameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
-           String newFileName = nameWithoutExtension + "ST.xml"; //Tokenized by Song
+           String newFileName = nameWithoutExtension + "S.xml"; //Tokenized by Song
            String writePath = new File(file.getParentFile(), newFileName).getAbsolutePath();
 
 
            try(BufferedWriter wr = new BufferedWriter(new FileWriter(writePath))){
                JackTokenizer tk = new JackTokenizer(source);
+               JackCompilationEngine ce = new JackCompilationEngine(tk, wr);
+               ce.compileClass();
+
+
+               /* 컴파일러 모듈1: 토크나이저
                wr.write("<tokens>");
                wr.newLine();
                while(tk.hasMoreTokens()){
@@ -78,7 +83,9 @@ public class JackAnalyzer {
                }
                wr.write("</tokens>");
                wr.newLine();
+               */
            } catch (Exception e){
+               System.out.println(e);
                System.out.println("처리중 오류 발생");
            }
         }
