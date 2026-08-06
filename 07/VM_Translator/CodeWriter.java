@@ -411,7 +411,7 @@ public class CodeWriter {
         wr.newLine();
 
     }
-
+    //파일들 끼리 라벨 중복 피하기.
     public void writeLabel(String label) throws IOException{
         String assembly = "(%s.%s$%s)".formatted(fileName, functionName, label);
         System.out.println("writing label...");
