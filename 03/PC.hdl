@@ -14,14 +14,14 @@ CHIP PC {
     OUT out[16];
     
     PARTS:
-    Inc16(in=feedback , out=incout );
-    Mux16(a=feedback , b=incout , sel=inc , out=out1 );
+    Inc16(in=feedback , out=increasedOut );
+    Mux16(a=feedback , b=increasedOut , sel=inc , out=out1 ); //a에는 뭐가 들어가도 상관없음
     Mux16(a=out1 , b=in , sel=load , out=out2 );
     Mux16(a=out2 , b=false , sel=reset , out=out3 );
 
-    Or(a=inc , b=load , out=load1 );
-    Or(a=load1 , b=reset , out=realload );
+    Or(a=inc , b=load , out=incOrLoad );
+    Or(a=incOrLoad , b=reset , out=loadSignal );
    
-    Register(in=out3 , load= realload, out=out, out=feedback );
+    Register(in=out3 , load= loadSignal, out=out, out=feedback );
     //// Replace this comment with your code.
 }
