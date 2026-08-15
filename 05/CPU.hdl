@@ -67,5 +67,24 @@ CHIP CPU {
     PC(in=RAout , load=PCload , inc=true , reset=reset , out[0..14]=pc );
 
 
+    //Another Program Counter Part (improved)
+    //only one of three PC's control bit is 1 by supplied 2 DMux 
+    Not(in=zr , out=notZr );
+    Not(in=ng , out=notNg );
+    And(a=notZr , b=notNg , out=ps);
+
+    And(a=instruction[2] , b=ng , out=ngbit );
+    And(a=instruction[1] , b=zr , out=zrbit );
+    And(a=instruction[0] , b=ps , out=psbit );
+
+    Or(a=ngbit , b=zrbit , out=ngbitORzrbit );
+    Or(a=ngbitORzrbit , b=psbit , out=ngbitORzrbitORpsbit );
+    And(a=instruction[15] , b=ngbitORzrbitORpsbit , out=PCload );
+
+    DMux(in=true , sel=reset , a=loadORincreaseBit , b=resetBit );
+    DMux(in=loadORincreaseBit , sel=PCload , a=increaseBit , b=loadBit );
+
+    PC(in=RAout , load=loadBit , inc=increaseBit , reset=resetBit , out[0..14]=pc );
+
 	//// Replace this comment with your code.
 }
